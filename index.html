@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard with Calculators</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+    }
+    
+    /* Top Navigation */
+    .top-nav {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .nav-brand {
+      font-size: 24px;
+      font-weight: 700;
+      color: #4a4a8a;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .nav-brand:hover {
+      color: #667eea;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+    }
+    
+    .nav-link {
+      color: #4a4a8a;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-link:hover {
+      background: rgba(102, 126, 234, 0.1);
+      color: #667eea;
+    }
+    
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .notification-icon {
+      position: relative;
+      color: #4a4a8a;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .notification-icon:hover {
+      background: rgba(102, 126, 234, 0.1);
+      color: #667eea;
+    }
+    
+    .notification-badge {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background: #ff4757;
+      color: white;
+      border-radius: 50%;
+      width: 8px;
+      height: 8px;
+      font-size: 8px;
+    }
+    
+    .profile-avatar {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    
+    .profile-avatar:hover {
+      transform: scale(1.1);
+    }
+    
+    /* Hero Section */
+    .hero-section {
+      padding: 40px 0;
+      text-align: center;
+      color: white;
+    }
+    
+    .hero-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    .hero-subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+    
+    .stats-row {
+      margin-top: 20px;
+    }
+    
+    .stat-card {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+    
+    /* Dashboard */
+    .dashboard {
+      max-width: 800px;
+      margin: 40px auto;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+      padding: 30px;
+    }
+    
+    .dashboard-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .dashboard-title {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #4a4a8a;
+      margin-bottom: 10px;
+    }
+    
+    .dashboard-subtitle {
+      color: #666;
+      font-size: 1rem;
+    }
+    
+    .option-card {
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      transition: all 0.3s ease-in-out;
+      cursor: pointer;
+      background: white;
+      border: 2px solid #f0f0f0;
+      height: 120px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    
+    .option-card:hover {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      transform: translateY(-5px);
+      border-color: transparent;
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+    }
+    
+    .option-icon {
+      font-size: 35px;
+      margin-bottom: 10px;
+      color: #4a4a8a;
+      transition: color 0.3s ease;
+    }
+    
+    .option-card:hover .option-icon {
+      color: white;
+    }
+    
+    .option-title {
+      font-weight: 600;
+      font-size: 18px;
+      color: #4a4a8a;
+      transition: color 0.3s ease;
+    }
+    
+    .option-card:hover .option-title {
+      color: white;
+    }
+    
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      
+      .hero-title {
+        font-size: 2rem;
+      }
+      
+      .dashboard {
+        margin: 20px;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <nav class="top-nav">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <a href="#" class="nav-brand">
+          <i class="bi bi-calculator"></i>
+          FinanceHub
+        </a>
+        
+        <div class="nav-links">
+          <a href="#" class="nav-link">Dashboard</a>
+          <a href="#" class="nav-link">Calculators</a>
+          <a href="#" class="nav-link">Reports</a>
+          <a href="#" class="nav-link">Settings</a>
+        </div>
+        
+        <div class="user-profile">
+          <div class="notification-icon">
+            <i class="bi bi-bell"></i>
+            <div class="notification-badge"></div>
+          </div>
+          <div class="profile-avatar">
+            JD
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="container">
+      <h1 class="hero-title">Financial Calculator Suite</h1>
+      <p class="hero-subtitle">Manage your finances with our comprehensive set of calculators</p>
+      
+      <div class="row stats-row g-3">
+        <div class="col-md-3 col-6">
+          <div class="stat-card">
+            <div class="stat-number">6</div>
+            <div class="stat-label">Calculators</div>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="stat-card">
+            <div class="stat-number">1.2K+</div>
+            <div class="stat-label">Calculations</div>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="stat-card">
+            <div class="stat-number">24/7</div>
+            <div class="stat-label">Available</div>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="stat-card">
+            <div class="stat-number">Free</div>
+            <div class="stat-label">Always</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <div class="dashboard">
+    <div class="dashboard-header">
+      <h2 class="dashboard-title">Choose Your Calculator</h2>
+      <p class="dashboard-subtitle">Select from our range of financial tools to get started</p>
+    </div>
+    
+    <div class="row g-3">
+      <div class="col-6">
+        <div class="option-card" data-bs-toggle="modal" data-bs-target="#epfModal">
+          <i class="bi bi-bank option-icon"></i>
+          <div class="option-title">EPF/ETF</div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="option-card" data-bs-toggle="modal" data-bs-target="#fdModal">
+          <i class="bi bi-piggy-bank option-icon"></i>
+          <div class="option-title">Fixed Deposit</div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="option-card" data-bs-toggle="modal" data-bs-target="#electricityModal">
+          <i class="bi bi-lightning-charge option-icon"></i>
+          <div class="option-title">Electricity</div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="option-card" data-bs-toggle="modal" data-bs-target="#loanModal">
+          <i class="bi bi-credit-card option-icon"></i>
+          <div class="option-title">Loan</div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="option-card" data-bs-toggle="modal" data-bs-target="#pawningModal">
+          <i class="bi bi-gem option-icon"></i>
+          <div class="option-title">Pawning</div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="option-card" data-bs-toggle="modal" data-bs-target="#nicModal">
+          <i class="bi bi-person-badge option-icon"></i>
+          <div class="option-title">NIC</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EPF/ETF Modal -->
+  <div class="modal fade" id="epfModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content p-3">
+        <h5>EPF/ETF Calculator</h5>
+        <input type="number" id="salary" class="form-control my-2" placeholder="Enter Basic Salary">
+        <input type="number" id="epfRate" class="form-control my-2" placeholder="EPF % (default 8)">
+        <input type="number" id="etfRate" class="form-control my-2" placeholder="ETF % (default 3)">
+        <button class="btn btn-primary" onclick="calcEPF()">Calculate</button>
+        <p class="mt-2" id="epfResult"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fixed Deposit Modal -->
+  <div class="modal fade" id="fdModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content p-3">
+        <h5>Fixed Deposit Calculator</h5>
+        <input type="number" id="fdAmount" class="form-control my-2" placeholder="Enter Principal">
+        <input type="number" id="fdRate" class="form-control my-2" placeholder="Interest Rate %">
+        <input type="number" id="fdYears" class="form-control my-2" placeholder="Time (years)">
+        <button class="btn btn-primary" onclick="calcFD()">Calculate</button>
+        <p class="mt-2" id="fdResult"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Electricity Modal -->
+  <div class="modal fade" id="electricityModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content p-3">
+        <h5>Electricity Bill Calculator</h5>
+        <input type="number" id="units" class="form-control my-2" placeholder="Enter Units Consumed">
+        <input type="number" id="unitRate" class="form-control my-2" placeholder="Rate per Unit">
+        <button class="btn btn-primary" onclick="calcElectricity()">Calculate</button>
+        <p class="mt-2" id="elecResult"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loan Modal -->
+  <div class="modal fade" id="loanModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content p-3">
+        <h5>Loan EMI Calculator</h5>
+        <input type="number" id="loanAmount" class="form-control my-2" placeholder="Loan Amount">
+        <input type="number" id="loanRate" class="form-control my-2" placeholder="Interest Rate % (per year)">
+        <input type="number" id="loanYears" class="form-control my-2" placeholder="Years">
+        <button class="btn btn-primary" onclick="calcLoan()">Calculate</button>
+        <p class="mt-2" id="loanResult"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pawning Modal -->
+  <div class="modal fade" id="pawningModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content p-3">
+        <h5>Pawning Calculator</h5>
+        <input type="number" id="goldWeight" class="form-control my-2" placeholder="Gold Weight (grams)">
+        <input type="number" id="ratePerGram" class="form-control my-2" placeholder="Rate per Gram">
+        <input type="number" id="pawnInterest" class="form-control my-2" placeholder="Interest %">
+        <button class="btn btn-primary" onclick="calcPawning()">Calculate</button>
+        <p class="mt-2" id="pawningResult"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- NIC Modal -->
+  <div class="modal fade" id="nicModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content p-3">
+        <h5>NIC Age Calculator</h5>
+        <input type="text" id="nicNumber" class="form-control my-2" placeholder="Enter NIC Number">
+        <button class="btn btn-primary" onclick="calcNIC()">Calculate</button>
+        <p class="mt-2" id="nicResult"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap & JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function calcEPF() {
+      let salary = parseFloat(document.getElementById('salary').value);
+      let epfRate = parseFloat(document.getElementById('epfRate').value) || 8;
+      let etfRate = parseFloat(document.getElementById('etfRate').value) || 3;
+      let epf = (salary * epfRate) / 100;
+      let etf = (salary * etfRate) / 100;
+      document.getElementById('epfResult').innerText = `EPF: ${epf.toFixed(2)}, ETF: ${etf.toFixed(2)}`;
+    }
+
+    function calcFD() {
+      let p = parseFloat(document.getElementById('fdAmount').value);
+      let r = parseFloat(document.getElementById('fdRate').value) / 100;
+      let t = parseFloat(document.getElementById('fdYears').value);
+      let maturity = p * Math.pow((1 + r), t);
+      document.getElementById('fdResult').innerText = `Maturity Amount: ${maturity.toFixed(2)}`;
+    }
+
+    function calcElectricity() {
+      let units = parseFloat(document.getElementById('units').value);
+      let rate = parseFloat(document.getElementById('unitRate').value);
+      let bill = units * rate;
+      document.getElementById('elecResult').innerText = `Total Bill: ${bill.toFixed(2)}`;
+    }
+
+    function calcLoan() {
+      let principal = parseFloat(document.getElementById('loanAmount').value);
+      let annualRate = parseFloat(document.getElementById('loanRate').value) / 100;
+      let years = parseFloat(document.getElementById('loanYears').value);
+      let months = years * 12;
+      let monthlyRate = annualRate / 12;
+      let emi = (principal * monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1);
+      document.getElementById('loanResult').innerText = `Monthly EMI: ${emi.toFixed(2)}`;
+    }
+
+    function calcPawning() {
+      let weight = parseFloat(document.getElementById('goldWeight').value);
+      let rate = parseFloat(document.getElementById('ratePerGram').value);
+      let interest = parseFloat(document.getElementById('pawnInterest').value) / 100;
+      let value = weight * rate;
+      let total = value + (value * interest);
+      document.getElementById('pawningResult').innerText = `Loan Value: ${value.toFixed(2)}, With Interest: ${total.toFixed(2)}`;
+    }
+
+    function calcNIC() {
+      let nic = document.getElementById('nicNumber').value;
+      let year, dob;
+      if (nic.length === 10) { // Old NIC
+        year = parseInt("19" + nic.substring(0, 2));
+      } else if (nic.length === 12) { // New NIC
+        year = parseInt(nic.substring(0, 4));
+      } else {
+        document.getElementById('nicResult').innerText = "Invalid NIC format!";
+        return;
+      }
+      dob = new Date(year, 0, 1);
+      let age = new Date().getFullYear() - year;
+      document.getElementById('nicResult').innerText = `Year of Birth: ${year}, Age: ${age}`;
+    }
+  </script>
+</body>
+</html>
